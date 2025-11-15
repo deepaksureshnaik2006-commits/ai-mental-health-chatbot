@@ -6,6 +6,7 @@ The main idea is to provide users with a small space where they can express how 
 What This App Does
 
 Mood Selection
+
 The home screen shows different mood emojis.
 When a user taps on any mood, the app gives a short and friendly response based on the emotion.
 It also saves the mood in a CSV file so that the emotions can be tracked over time.
