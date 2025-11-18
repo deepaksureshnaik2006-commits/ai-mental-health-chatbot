@@ -4,14 +4,14 @@ import datetime
 import os
 from dotenv import load_dotenv
 
-# ---------- LOAD API KEY ----------
+
 load_dotenv()
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
-# ---------- PAGE CONFIG ----------
+
 st.set_page_config(page_title="AI Mental Health Companion", layout="centered")
 
-# ---------- SESSION STATE ----------
+
 if "conversation" not in st.session_state:
     st.session_state.conversation = []
 if "last_mood" not in st.session_state:
@@ -21,7 +21,7 @@ if "mood_insight_shown" not in st.session_state:
 if "user_input" not in st.session_state:
     st.session_state.user_input = ""
 
-# ---------- GEMINI RESPONSE FUNCTION ----------
+
 def ask_gemini(prompt):
     try:
         model = genai.GenerativeModel("models/gemini-2.5-flash")
@@ -30,7 +30,7 @@ def ask_gemini(prompt):
     except Exception as e:
         return f"⚠️ Gemini API Error: {e}"
 
-# ---------- CLEAR INPUT FUNCTION ----------
+
 def send_message():
     user_message = st.session_state.user_input.strip()
     if not user_message:
@@ -41,14 +41,14 @@ def send_message():
         ai_response = ask_gemini(user_message)
     st.session_state.conversation.append({"role": "assistant", "content": ai_response})
 
-    # ✅ Properly clear text box
+    
     st.session_state.user_input = ""
 
-# ---------- MAIN HEADER ----------
+
 st.title("🧘 AI Mental Health Companion")
 st.write("Select your mood and chat with your caring AI companion 💖")
 
-# ---------- MOOD SELECTION ----------
+
 st.subheader("💭 How are you feeling right now?")
 moods = {
     "😀": "Happy",
@@ -68,7 +68,7 @@ for i, (emoji, label) in enumerate(moods.items()):
             f.write(f"{datetime.datetime.now()},{emoji} {label}\n")
         st.rerun()
 
-# ---------- MOOD INSIGHT ----------
+
 if st.session_state.last_mood and not st.session_state.mood_insight_shown:
     st.markdown("<br>", unsafe_allow_html=True)
     mood_prompt = f"""
@@ -87,7 +87,7 @@ if st.session_state.last_mood and not st.session_state.mood_insight_shown:
     st.session_state.mood_insight_shown = True
     st.rerun()
 
-# ---------- CHAT SECTION ----------
+
 st.markdown("---")
 st.subheader("💬 Continue the conversation")
 
@@ -103,7 +103,7 @@ st.text_input(
     on_change=send_message
 )
 
-# ---------- SELF-CARE TOOLS ----------
+
 st.markdown("<br>", unsafe_allow_html=True)
 st.subheader("🌿 Self-Care Tools")
 
@@ -118,7 +118,7 @@ with col2:
         meditation = ask_gemini("Give a 2-minute calming meditation script for stress relief.")
         st.info(meditation)
 
-# ---------- MENTAL HEALTH RESOURCES ----------
+
 st.markdown("---")
 st.subheader("🆘 Mental Health Resources")
 
